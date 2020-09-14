@@ -1,0 +1,48 @@
+/*estilos de pagina*/
+.settings {
+    background-color: rgb(231, 164, 164);
+    padding: 2vw;
+    height: 20vh;
+}
+.tools ,.filtros {
+    background-color: rgb(228, 228, 228);
+    padding: 2vw;
+}
+.tool {
+    color: rgb(121, 121, 131);
+    font-size: 5vw;
+}
+i {
+    margin: 2.5vw;
+}
+.lienzo {
+    background-color: rgb(188, 183, 255);
+   padding: 2vw;
+}
+
+canvas {
+    background-color: rgb(255, 255, 255);
+    margin: 0 auto;
+    padding: 0;
+    border: 1px solid black;
+   
+}
+
+/*estilos cursor*/
+.lapiz {
+    cursor : url('./assets/lapiz.svg'),pointer !important;
+}
+
+
+.goma {
+    cursor : url('./assets/goma.svg'),pointer !important;
+}
+
+/*herramientas activas*/
+.tool-active {
+    color: rgb(23, 23, 26);
+}
+
+
+
+

@@ -1,0 +1,42 @@
+<!DOCTYPE html
+	PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>Clase 1 - Template</title>
+</head>
+
+<body>
+	<ul class="nav">
+		<li class="nav-item">
+			<a class="nav-link active" href="#">Active</a>
+		</li>
+		<li class="nav-item">
+			<a class="nav-link" href="#">Link</a>
+		</li>
+		<li class="nav-item">
+			<a class="nav-link" href="#">Link</a>
+		</li>
+		<li class="nav-item">
+			<a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+		</li>
+	</ul>
+
+	<div class="">
+		<label for="">Columnas</label><input type="text" id="cols" value="100" />
+		<label for="">Filas</label><input type="text" id="rows" value="100" />
+		<input type="button" id="enviar" value="crear tabla" onclick="crear()" /><br>
+		<button id="maxmatriz">valor maximo de la matriz</button>
+		<input type="text" id="resultadomaxmatriz"><br>
+		<button id="maxparesminimpares">maximo pares/minimo impares</button>
+		<input type="text" id="resultadomaxmin"><br>
+		<button id="promedios">promedios</button>
+		<input type="text" id="resultadopromedios">
+	</div>
+	<div id="resultadomatriz">
+	</div>
+
+	<script src="practico1.js"></script>
+
+</html>
