@@ -2,8 +2,8 @@
 
 // lienzo 
 let canvas = document.getElementById("canvas");
-canvas.width = 530;
-canvas.height = 500;
+canvas.width = 880;
+canvas.height = 460;
 
 let rec = canvas.getBoundingClientRect();//para obtener cordenadas de canvas
 let ctx = canvas.getContext("2d");

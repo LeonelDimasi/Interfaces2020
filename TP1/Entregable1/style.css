@@ -2,22 +2,31 @@
 .settings {
     background-color: rgb(231, 164, 164);
     padding: 2vw;
-    height: 20vh;
+    height: 15vh;
 }
 .tools ,.filtros {
     background-color: rgb(228, 228, 228);
     padding: 2vw;
+    height: 93vh;
+    padding-left: 4.3vw;
 }
 .tool {
     color: rgb(121, 121, 131);
-    font-size: 5vw;
+    font-size: 4vw;
+    display: flex;
+    justify-content: center;
+    
+}
+.tool:hover{
+    color:  rgb(66, 66, 82);
 }
 i {
-    margin: 2.5vw;
+    padding-left: 4.3vw;
+    margin: 2vw;
 }
 .lienzo {
     background-color: rgb(188, 183, 255);
-   padding: 2vw;
+    padding: 2vw;
 }
 
 canvas {
