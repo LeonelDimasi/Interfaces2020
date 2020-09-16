@@ -4,19 +4,28 @@
 let canvas = document.getElementById("canvas");
 canvas.width = 530;
 canvas.height = 500;
+
 let rec = canvas.getBoundingClientRect();//para obtener cordenadas de canvas
 let ctx = canvas.getContext("2d");
-
+limpiarCanvas();
 let x = 0;
 let y = 0;
 let dibujando = false;
 let img;
+
+let tool;
+
+
 //tools
 let goma = document.getElementById("goma");
 goma.addEventListener('click',modoGoma);
 
 let lapiz = document.getElementById("lapiz");
 lapiz.addEventListener('click',modoLapiz);
+
+let gotero = document.getElementById("gotero");
+gotero.addEventListener('click',modoGotero);
+
 
 let  colorPicker = document.getElementById("colorPicker");
 
@@ -27,22 +36,10 @@ fileInput.addEventListener('change',cargarImagen);
 let btnDownload = document.getElementById("descargar");
 btnDownload.addEventListener('click',descargarImagen);
 
-//filtros
 
-let negativo = document.getElementById("negativo");
-negativo.addEventListener('click',filterNegativo);
+let btnborrar = document.getElementById("descartar");
+btnborrar.addEventListener('click',limpiarCanvas);
 
-let grises = document.getElementById("grises");
-grises.addEventListener('click',filterGrises);
-
-let baw = document.getElementById("baw");
-baw.addEventListener('click',blackAndWhite);
-
-let filtroSepia = document.getElementById("sepia");
-filtroSepia.addEventListener('click',sepia);
-
-let filteBrillo = document.getElementById("brilloPicker");
-filteBrillo.addEventListener('change',filterBrillo);
 let brillo = 1;
 
 //atributos herramientas
@@ -53,17 +50,18 @@ let grosor = 5;
 let drawing = false;
 
 var bMouseIsDown= false;
-var iLastX 
-var iLastY 
+
 
 //eventos mouse
-/*
+
 canvas.addEventListener('mousedown',mDown);
 canvas.addEventListener('mousemove',mMove);
 canvas.addEventListener('mouseup',mUp);
-*/
+//canvas.addEventListener('touchstart', mDown);
+//canvas.addEventListener('touchmove', mMove);
+
 //valores por defecto
-canvas.className = "lapiz";
+//canvas.className = "lapiz";
 
 
 //funciones que modifican atributos de herramientas
@@ -73,9 +71,9 @@ function setBrillo(b){
 
 function setColor(c){
     color = c;
-    if(lapiz.classList.contains("tool-active")){
+   /* if(lapiz.classList.contains("tool-active")){
       lapiz.style.color = color;
-    }
+    }*/
 }
 
 function setGrosor(g){
@@ -83,36 +81,58 @@ function setGrosor(g){
 }
 
 
+//funciones mouse
+function mDown(e){
+  if(tool==="lapiz" || tool==="goma"){
+    x = e.clientX - rec.left;
+    y = e.clientY - rec.top;
+    dibujando = true;
+  }
+  if (tool==="gotero"){
+    x = e.clientX - rec.left;
+    y = e.clientY - rec.top;
+    //colorPicker.click(setColor(getPixelColor( e.clientX - rec.left , e.clientY - rec.top) ))
+    colorPicker.value=getPixelColor( e.clientX - rec.left , e.clientY - rec.top);
+    console.log("setcolor");
+    console.log(getPixelColor( e.clientX - rec.left , e.clientY - rec.top) );
+    color = getPixelColor( e.clientX - rec.left , e.clientY - rec.top) 
+    console.log(color)
+    //tool="";
+   // borrarActivos();
 
-canvas.addEventListener('mousedown',function(e){
-  x = e.clientX - rec.left;
-  y = e.clientY - rec.top;
-  dibujando = true;
-})
-
-
-canvas.addEventListener('mousemove',function(e){
-  if(dibujando === true){
-    dibujar(x,y,e.clientX - rec.left,e.clientY - rec.top);
+  }
+  
+}
+function mMove(e){
+  if(dibujando === true && (tool==="lapiz" || tool==="goma") ){
+    draw(x,y,e.clientX - rec.left,e.clientY - rec.top);
       x = e.clientX - rec.left;
       y = e.clientY - rec.top;
   }
-})
+  if (tool==="gotero"){
+   
+    console.log(getPixelColor( e.clientX - rec.left , e.clientY - rec.top) );
+     
+  }
+}
 
-canvas.addEventListener('mouseup',function(e){
-  if(dibujando === true){
-    dibujar( x , y , e.clientX - rec.left , e.clientY - rec.top);
+function mUp(e){
+  if(dibujando === true && (tool==="lapiz" || tool==="goma")){
+    draw( x , y , e.clientX - rec.left , e.clientY - rec.top);
       x = 0;
       y = 0;
       dibujando = false;
   }
-})
+  if (tool==="gotero"){
+    
+     //getPixelColor( e.clientX - rec.left , e.clientY - rec.top) 
+  }
+}
 
-function dibujar(x1,y1,x2,y2){
+function draw(x1,y1,x2,y2){
   ctx.beginPath();
   ctx.strokeStyle = color;
   ctx.lineWidth = grosor;
-  //ctx.fillStyle = '#ffffff';
   ctx.lineJoin ="round";
   ctx.lineCap ="round";
   ctx.moveTo(x1,y1);
@@ -135,26 +155,47 @@ function redrawImage() {
   ctx.drawImage(img, posicionX, posicionY ,width,height);
 } 
 
-function reload(){
-  window.location.reload();
-}
+
 
 /// modos segun herramienta
 function modoGoma(){
- // gomaOn = true;
+  borrarActivos();
+  tool = "goma";
   canvas.className = "goma";
   setColor("#ffff");
   goma.classList.add("tool-active");
-  lapiz.classList.remove("tool-active");
 }
 
 function modoLapiz(){
-  //lapizOn = true;
+  borrarActivos();
+  tool = "lapiz";
   canvas.className = "lapiz";
   setColor(colorPicker.value);
   lapiz.classList.add("tool-active");
-  goma.classList.remove("tool-active");
-  lapiz.style.color = color;
+  //lapiz.style.color = color;
+}
+
+function modoGotero(){
+  borrarActivos();
+  tool = "gotero";
+  canvas.className = "gotero";
+  gotero.classList.add("tool-active");
+}
+
+function getPixelColor(x, y) {
+  let pxData = ctx.getImageData(x,y,1,1);
+ // return("'"+pxData.data[0]+","+pxData.data[1]+","+pxData.data[2]+"'");
+
+return  rgbToHex(pxData.data[0], pxData.data[1], pxData.data[2])
+}
+
+function componentToHex(c) {
+  var hex = c.toString(16);
+  return hex.length == 1 ? "0" + hex : hex;
+}
+
+function rgbToHex(r, g, b) {
+  return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
 }
 
 
@@ -194,110 +235,38 @@ function descargarImagen(){
   window.document.body.removeChild( link );
 }
 
-//filtros 
-function  filterImage() {
-  let d = ctx.getImageData(0, 0, ctx.canvas.width, ctx.canvas.height);
-  for (let i = 0; i < d.data.length; i += 4) {
-    d.data[i + 0] = Math.min(Math.floor(d.data[i + 0] * 2.0), 0xFF); // R
-    d.data[i + 1] = Math.min(Math.floor(d.data[i + 1] * 1.0), 0xFF); // G
-    d.data[i + 2] = Math.min(Math.floor(d.data[i + 2] * 3.0), 0xFF); // B
-    d.data[i + 3] = 0xFF;                                            // A
-  }
-  ctx.putImageData(d, 0, 0);
+
+function reload(){
+  window.location.reload();
 }
 
-function  filterBrillo() {
-  redrawImage(img);
-  let d = ctx.getImageData(0, 0, ctx.canvas.width, ctx.canvas.height); //cambiar a ubicion de imagen y tamanio
-  for (let i = 0; i < d.data.length; i += 4) {
-    d.data[i + 0]+= 255 * (brillo / 100); // R
-    d.data[i + 1] += 255 * (brillo / 100); // G
-    d.data[i + 2] += 255 * (brillo / 100);
-    d.data[i + 3] = 0xFF;   
-  }
-  ctx.putImageData(d, 0, 0);///revisar
+function borrarActivos(){
+  let tools = document.querySelectorAll('*.tool-active');
+  tools.forEach(element => {
+     element.classList.remove('tool-active');
+  });
 }
 
-function  filterNegativo() {
-  let d = ctx.getImageData(0, 0, ctx.canvas.width, ctx.canvas.height); //cambiar a ubicion de imagen y tamanio
-  for (let i = 0; i < d.data.length; i += 4) {
-    d.data[i+0]   = 255 - d.data[i+0];   // red
-    d.data[i + 1] = 255 - d.data[i + 1]; // green
-    d.data[i + 2] = 255 - d.data[i + 2]; // blue
-    d.data[i + 3] = 0xFF;                // A
+ function limpiarCanvas(){
+  let imageData = ctx.getImageData(0,0,canvas.width,canvas.height);
+  for (let x=0; x<canvas.width; x++){
+    for (let y=0; y<canvas.height; y++){
+        setPixel(imageData,x,y,255,255,255,255);
+    }
   }
-  ctx.putImageData(d, 0, 0);
+  ctx.putImageData(imageData, 0, 0);
 }
 
-function  filterGrises() {
-  let d = ctx.getImageData(0, 0, ctx.canvas.width, ctx.canvas.height); //cambiar a ubicion de imagen y tamanio
-  let avg;
-  for (let i = 0; i < d.data.length; i += 4) {
-     avg = (d.data[i+0] + d.data[i + 1] + d.data[i + 2]) / 3;
-    d.data[i+0]   = avg;   // red
-    d.data[i + 1] = avg; // green
-    d.data[i + 2] = avg; // blue
-    d.data[i + 3] = 0xFF; // A
-  }
-  ctx.putImageData(d, 0, 0);
-}
-
-function  blackAndWhite() {
-  let d = ctx.getImageData(0, 0, ctx.canvas.width, ctx.canvas.height); //cambiar a ubicion de imagen y tamanio
-  let avg;
-  for (let i = 0; i < d.data.length; i += 4) {
-     avg = (d.data[i+0] + d.data[i + 1] + d.data[i + 2]) / 3;
-     if (avg> 255/2){
-       avg=255;
-     }else{ avg = 0 }
-    d.data[i+0]   = avg;   // red
-    d.data[i + 1] = avg; // green
-    d.data[i + 2] = avg; // blue
-    d.data[i + 3] = 0xFF;                // A
-  }
-  ctx.putImageData(d, 0, 0);
+function setPixel(imageData,x,y,r,g,b,a) {
+  index = ( x + y * imageData.width) *4;
+  imageData.data[index + 0 ] = r;
+  imageData.data[index + 1 ] = g;
+  imageData.data[index + 2 ] = b;
+  imageData.data[index + 3 ] = a;
 }
 
 
-function sepia(){
-  let d = ctx.getImageData(0, 0, ctx.canvas.width, ctx.canvas.height); //cambiar a ubicion de imagen y tamanio
-  let r,g,b
 
-  for (let i = 0; i < d.data.length; i += 4) {
-
-    r = d.data[i+0];   
-    g = d.data[i + 1]; 
-    b = d.data[i + 2]; 
-     
-    d.data[i+0]   = 255 - d.data[i+0];   // red
-    d.data[i + 1] = 255 - d.data[i + 1]; // green
-    d.data[i + 2] = 255 - d.data[i + 2]; // blue
-
-
-    d.data[i+0] = ( r * .393 ) + ( g *.769 ) + ( b * .189 );
-    d.data[i + 1] = ( r * .349 ) + ( g *.686 ) + ( b * .168 );
-    d.data[i + 2]= ( r * .272 ) + ( g *.534 ) + ( b * .131 );
-    d.data[i + 3] = 0xFF;                // A
-  }
-  ctx.putImageData(d, 0, 0);
-}
-
-
-/* 
-function  draw(x1 ,y1 , x2 ,y2) {
-    ctx.beginPath();
-    ctx.strokeStyle = color;
-    ctx.lineWidth = grosor;
-    ctx.lineCap ="round";
-    ctx.moveTo(x1,y1);
-    ctx.lineTo(x2,y2);
-    ctx.stroke();
-    ctx.closePath();
-}*/
-/*
-miCanvas.addEventListener('touchstart', empezarDibujo, false);
-miCanvas.addEventListener('touchmove', dibujarLinea, false);
-*/ 
 /*
 
 var misCabeceras = new Headers({

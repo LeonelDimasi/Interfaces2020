@@ -38,6 +38,9 @@ canvas {
     cursor : url('./assets/goma.svg'),pointer !important;
 }
 
+.gotero {
+    cursor : url('./assets/gotero.svg'),pointer !important;
+}
 /*herramientas activas*/
 .tool-active {
     color: rgb(23, 23, 26);
