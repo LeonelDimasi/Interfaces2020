@@ -111,47 +111,72 @@ function sepia() {
 }
 
 function blur (){
-    let image = ctx.getImageData(0, 0, ctx.canvas.width, ctx.canvas.height); //cambiar a ubicion de imagen y tamanio
-
-    for (let i = 0; i < image.data.length; i += 4) {
-        
-        if(x < 1 || y < 1 || x + 1 == ctx.canvas.width || y + 1 == ctx.canvas.height) {
-            // Calculate average.
-        Sum = image[x - 1, y + 1] + // Top left 
-        image.data[x + 0, y + 1] + // Top center
-        image.data[x + 1, y + 1] + // Top right
-        image.data[x - 1, y + 0] + // Mid left
-        image.data[x + 0, y + 0] + // Current pixel
-        image.data[x + 1, y + 0] + // Mid right
-        image.data[x - 1, y - 1] + // Low left
-        image.data[x + 0, y - 1] + // Low center
-        image.data[x + 1, y - 1];  // Low right
-
-        image.data[x - 1, y + 1] = Sum / 9;
-        image.data[x + 0, y + 1] = Sum / 9;
-        image.data[x + 1, y + 1] = Sum / 9;
-        image.data[x - 1, y + 0] = Sum / 9;
-        image.data[x + 1, y + 0] = Sum / 9;
-        image.data[x - 1, y - 1] = Sum / 9;
-        image.data[x + 0, y - 1] = Sum / 9;
-        image.data[x + 1, y - 1] = Sum / 9;
-          
-          //newImage[x, y] = Sum / 9;
-        }
-        
-        
+    let imageData = ctx.getImageData(0, 0, canvas.width, canvas.height)
+    let radio = 1;
+  
+    let matriz = [];
+    let alcance = radio*2 + 1;
+    let vol = alcance*alcance;
+  
+    for (let i = 0; i < alcance; i++) {
+      matriz[i] = [];
+      for (let j = 0; j < alcance; j++) {
+        matriz[i][j] = 1/vol;
+      }
     }
-    ctx.putImageData(image, 0, 0);
-    
+  
+    let imgData = convolucion(matriz,imageData);
+    ctx.putImageData(imgData, 0, 0);
 }
+function getRGB(y, matrizY, x, matrizX, radio, imagen, width, height, matriz) {
+    let color = {'r' : 0, 'g' : 0, 'b' : 0}
+    let difY = y + matrizY - radio;
+    let difX = x + matrizX - radio;
+    if (difY >= 0 && difY < height && difX >= 0 && difX < width) {
+        let index = (difY * width + difX)*4;
+        let valor = matriz[matrizY][matrizX];
+        color.r = imagen.data[index] * valor;
+        color.g = imagen.data[index+1] * valor;
+        color.b = imagen.data[index+2] * valor;
+    }
+    return color;
+  }
+  
+function setRGB(img, width, height, matriz, imgRetorno, x, y) {
+    let r = 0, g = 0, b = 0;
+    let dimension = matriz.length;
+    let radio = Math.floor(dimension/2);
+    for (let matrizY = 0; matrizY < dimension; matrizY++) {
+        for (let matrizX = 0; matrizX < dimension; matrizX++) {
+            let color = getRGB(y, matrizY, x, matrizX, radio, img, width, height, matriz);
+            r += color.r;
+            g += color.g;
+            b += color.b;
+        }
+    }
+    setPixel(imgRetorno, x, y, r, g, b, 255, width);
+  }
 
+function convolucion( matriz,img) {
+  let imgRetorno = ctx.createImageData(img.width, img.height);
+  for (let y = 0; y < img.height; y++) {
+      for (let x = 0; x < img.width; x++) {
+          setRGB(img, img.width, img.height, matriz, imgRetorno, x, y)
+      }
+  }
+  return imgRetorno;
+};
+
+
+
+ 
 function filterSaturacion (){
     let image = ctx.getImageData(0, 0, ctx.canvas.width, ctx.canvas.height); 
     let dA = image.data; 
 
     let sv = 2; // EN 0 ES EN ESCALA DE GRISES 1 ES COLOR ORIGINALES
 
-    let luR = 0.3086; // constant to determine luminance of red. Similarly, for green and blue
+    let luR = 0.3086; //
     let luG = 0.6094;
     let luB = 0.0820;
 
