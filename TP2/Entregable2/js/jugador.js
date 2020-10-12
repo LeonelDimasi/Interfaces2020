@@ -43,7 +43,10 @@ export class Jugador {
       this.ficha = new Ficha(this.posX, this.posY, 30, this.color, this.ctx);
       this.cantidadFichas--;
     }
-    this.ficha.dibujar();
+    setTimeout(() => {
+      this.ficha.dibujar();
+    }, 300);
+    
   }
 
   getCantidadFichas() {
