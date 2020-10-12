@@ -1,4 +1,9 @@
-var juego;
+
+import { Juego } from "./juego.js";
+import { Jugador } from "./jugador.js";
+
+
+var juego ;
 
 canvas.addEventListener('click', function(e){
   juego.clickFicha(e);
