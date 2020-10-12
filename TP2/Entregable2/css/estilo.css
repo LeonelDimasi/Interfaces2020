@@ -1,0 +1,31 @@
+#canvas{
+  border: 1px solid black;
+  margin: 20px auto;
+  background-color: white;
+  display: block;
+}
+body{
+  background-image: url('../images/fondo.jpg');
+}
+#jugador1,#jugador2,#turno{
+  margin-top: 20px;
+  text-align: center;
+}
+#juego{
+  display: none;
+}
+#menu{
+  margin: 165px auto;
+  display: block;
+  text-align: center;
+}
+.btn{
+  width: 100%;
+}
+.input-group{
+  margin-top: 10px;
+}
+#error{
+  display: none;
+  margin-top: 10px;
+}
