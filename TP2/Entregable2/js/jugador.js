@@ -10,6 +10,7 @@ export class Jugador {
   posX;
   posY;
   fichas = [];
+  
 
   constructor(nombre, color, fichas, x, y) {
     this.nombre = nombre;
@@ -20,6 +21,7 @@ export class Jugador {
     this.ficha = false;
     this.posX = x;
     this.posY = y;
+    
   }
 
   asignarTurno() {

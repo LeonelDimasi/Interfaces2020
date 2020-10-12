@@ -45,6 +45,7 @@ export class Tablero {
     let ctx = this.ctx;
     let radio = this.radioFicha;
     this.casilleros.forEach(function (elem) {
+      
       if (elem.color != false) {
         let ficha = new Ficha(elem.x, elem.y, radio, elem.color, ctx);
         ficha.dibujar();

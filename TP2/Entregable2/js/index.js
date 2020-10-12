@@ -42,7 +42,7 @@ function comenzarJuego() {
     document.getElementById('menu').style.display = 'none';
     document.getElementById('juego').style.display = 'inline';
     let j1 = new Jugador(nombrej1,"red",21,80,70);
-    let j2 = new Jugador(nombrej2,"yellow",21,800,70);
+    let j2 = new Jugador(nombrej2,"blue",21,800,70);
     juego = new Juego(j1,j2);
     juego.iniciarJuego();
   }

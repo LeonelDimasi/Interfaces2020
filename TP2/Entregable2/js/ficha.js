@@ -6,6 +6,8 @@ export class Ficha {
     ctx;
     habilitada ;
     seleccionada ;
+    image;
+    pathImg;
     constructor(x, y, radio, color, ctx) {
         this.x = x;
         this.y = y;
@@ -14,15 +16,47 @@ export class Ficha {
         this.ctx = ctx;
         this.habilitada = true;
         this.seleccionada = false;
+        this.image = new Image();
+        if(color == "red"){
+            this.pathImg='./images/ficharoja.png';
+            this.image.src = this.pathImg ;
+        }else if(color == "blue"){
+            this.pathImg='./images/fichaazul.png';
+            this.image.src = this.pathImg ;
+        }
+        
+        
+        
     }
     
     dibujar() {
+        
+        this.ctx.beginPath();
+        //this.ctx.fillStyle = this.color;
+        this.ctx.arc(this.x,this.y,this.radio, 0, Math.PI * 2);
+        this.ctx.fillStyle = '#ffffff';
+        this.ctx.fill();
+        if(this.color != "white"){
+            this.ctx.drawImage(this.image, this.x - this.radio, this.y - this.radio);
+        }
+       
+        this.ctx.closePath();
+        this.image.onload = () => {
+        };
+    }
+
+    dibujar2() {
         this.ctx.beginPath();
         this.ctx.fillStyle = this.color;
         this.ctx.arc(this.x,this.y,this.radio, 0, Math.PI * 2);
+        this.ctx.fillStyle = '#ffffff';
         this.ctx.fill();
+       
         this.ctx.closePath();
+        
     }
+
+    
 
     mover(x,y,tablero,ficha2) {
         if (this.isHabilitada()){
