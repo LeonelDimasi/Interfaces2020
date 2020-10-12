@@ -4,12 +4,54 @@
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<title>4 en -----</title>
+		<title>Cuatro en linea</title>
+		<!-- Bootstrap -->
+		<link href="css/bootstrap.min.css" rel="stylesheet">
+		<link rel="stylesheet" href="css/estilo.css">
+		<link rel="stylesheet" href="css/alertify.min.css">
+		<link rel="stylesheet" href="css/themes/default.min.css">
 	</head>
 	<body>
-		<div>
-			<canvas id="canvas" height="800" width="1280" style="border:1px solid black;"/>
+		<div id="juego">
+			<div class="row">
+				<div class="col-md-offset-2 col-md-2">
+					<div id="jugador1" class="alert alert-info" role="alert"></div>
+					<span class="badge"> FICHAS RESTANTES: <span id="fichasj1"></span></span>
+				</div>
+				<div class="col-md-4">
+					<div id="turno" class="alert alert-success" role="alert"></div>
+				</div>
+				<div class="col-md-2">
+					<div id="jugador2" class="alert alert-info" role="alert"></div>
+					<span class="badge"> FICHAS RESTANTES: <span id="fichasj2"></span></span>
+				</div>
+			</div>
+			<div class="row">
+				<canvas id="canvas" height="500" width="900" style="border:1px solid black;"/>
+			</div>
+		</div>
+		<div id="menu">
+			<div class="row">
+				<div class="col-md-offset-4 col-md-4">
+						
+						<div class="input-group">
+						  <span class="input-group-addon" id="j1label">JUGADOR 1</span>
+						  <input id="j1nombre" type="text" class="form-control" placeholder="NOMBRE JUGADOR" aria-describedby="basic-addon1">
+						</div>
+						<div class="input-group">
+							<span class="input-group-addon" id="j2label">JUGADOR 2</span>
+							<input id="j2nombre" type="text" class="form-control" placeholder="NOMBRE JUGADOR" aria-describedby="basic-addon1">
+						</div>
+						<div id="error" class="alert alert-danger" role="alert"></div><br>
+						<button id="play" type="button" class="btn btn-primary">INICIAR JUEGO</button>
+						
+				</div>
+			</div>
 		</div>
 	</body>
-	<script type="module"  src="js/cuatroenlinea.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+	<!-- Alertify -->
+	<script type="text/javascript" src="js/alertify.min.js"></script>
+	<script type="module"  src="js/index.js"></script>
 </html>
