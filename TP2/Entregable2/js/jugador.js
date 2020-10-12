@@ -1,4 +1,4 @@
-import { Ficha2 } from "./ficha2.js";
+import { Ficha } from "./ficha.js";
 
 export class Jugador {
   nombre;
@@ -11,55 +11,41 @@ export class Jugador {
   posY;
   fichas = [];
 
-  constructor (nombre,color,fichas,x,y,ctx) {
+  constructor(nombre, color, fichas, x, y) {
     this.nombre = nombre;
     this.color = color;
     this.turno = false;
-    this.ctx = ctx;
+    this.ctx = document.getElementById("canvas").getContext("2d");
     this.cantidadFichas = fichas;
     this.ficha = false;
     this.posX = x;
     this.posY = y;
-    
-
-    
   }
 
   asignarTurno() {
     this.turno = true;
+    document.getElementById("turno").innerHTML = "TURNO DE " + this.nombre;
   }
-
   tieneTurno() {
     return this.turno;
   }
-
   sacarTurno() {
     this.turno = false;
   }
-
   getColor() {
     return this.color;
   }
-/*
-  setFicha() {
-    if (this.cantidadFichas>0){
-      this.ficha = new Ficha2(this.posX,this.posY,45,this.color,this.ctx);
-      this.cantidadFichas--;
-    }
-    this.ficha.dibujar();
-  }*/
 
   setFicha() {
-    if (this.cantidadFichas>0){
-      this.ficha = new Ficha2(this.posX,this.posY,45,this.color,this.ctx);
-      this.fichas.push(this.ficha);
+    if (this.cantidadFichas > 0) {
+      this.ficha = new Ficha(this.posX, this.posY, 30, this.color, this.ctx);
       this.cantidadFichas--;
     }
     this.ficha.dibujar();
   }
 
   getCantidadFichas() {
-    return this.cantidadFichas+1;
+    return this.cantidadFichas + 1;
   }
 
   getFicha() {
@@ -69,13 +55,4 @@ export class Jugador {
   getNombre() {
     return this.nombre;
   }
-
-  getFichas() {
-    return this.fichas;
-  }
-  
-
 }
-
-
-
