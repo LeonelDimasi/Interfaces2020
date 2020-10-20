@@ -1,0 +1,13 @@
+Home: 
+1. Debe tener una sección hero con fondos parallax animados constantemente. 
+ideas: nubes de fondo, estrellas en movimiento, 3 layers que se mueven según la posición del mouse, etc. 
+2. Debe animar la entrada de los componentes en pantalla. 
+3. Debe mover algunos componentes visuales a medida que scrollea. 
+6. Un carrusel de imágenes de la película, escenas destacadas.  
+ 
+Calendario de eventos: 
+7. Serán 4 eventos de charlas y anuncios, mostrados en un acordeón, animado. 
+8. Dentro de cada evento, deberá mostrar fotos de los expositores, con efectos 3d en el evento hover. 
+ 
+Consideraciones generales: 
+12. Todas las páginas deben cargar en 3 segundos (forzado) y mostrar previamente un loader.
