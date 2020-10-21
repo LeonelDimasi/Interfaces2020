@@ -13,11 +13,17 @@ body{
 
 }
 
-.logo-banner{
-        position: sticky;
+.logo-banner-1{
+        position: absolute;
         top: 50%;
-        right: 0%;
-        width: 80vh;
+        right: 50%;
+        width: 50vh;
+}
+.logo-banner-2{
+        position: absolute;
+        top: 20%;
+        right: 20%;
+        width: 70vh;
 }
 
 .kenburns-bottom-right {
