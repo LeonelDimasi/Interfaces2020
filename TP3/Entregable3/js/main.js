@@ -35,11 +35,14 @@ let titulo = document.createElement('h1');
 titulo.innerHTML="hola";
 
 cajon.appendChild(titulo);*/
-/*
+
 let cajon = document.getElementById("cajon");
-cajon.style.width = '400px';
-cajon.style.height = '400px';
-cajon.style.backgroundAttachment = 'fixed';
+cajon.style.width = '800px';
+cajon.style.height = '600px';
+cajon.style.position = 'relative';
+cajon.style.botton = '40';
+cajon.style.zIndex = 10000;
+//cajon.style.backgroundAttachment = 'fixed';
 cajon.style.backgroundRepeat= 'no-repeat','repeat-y';
 cajon.style.backgroundImage = '#000000';
 
@@ -57,7 +60,7 @@ setInterval(() => {
     i++;
     
 }, 4000);
-*/
+
 //
 
 
